@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 10:03:55 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 20:01:05 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 20:38:58 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct			s_graph
 {
 	int					**matrix;
 	int					vertices;
+	int					edges;
 	int					*visited;
 	int					*parent;
 	int					*dist;

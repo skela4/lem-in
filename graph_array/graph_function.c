@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 11:15:23 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 20:05:12 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 20:45:23 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void			negate_edge(t_graph *graph)
 	int			k;
 	t_sht_path *tmp;
 
-	// print_path(graph->s_path);
+	print_path(graph->s_path);
 	tmp = graph->s_path;
 	k = 0;
 	while (k < graph->vertices)
@@ -212,3 +212,39 @@ void			negate_edge(t_graph *graph)
 		k++;
 	}
 }
+
+// int						dijkstra(t_graph *graph, int src, int dest)
+// void 					BellmanFord(int graph[][3], int V, int E, int src) 
+void BellmanFord(t_graph *graph, int src, int dest) 
+{ 
+    int dis[V]; 
+    for (int i = 0; i < V; i++) 
+        dis[i] = INT_MAX; 
+
+    dis[src] = 0; 
+
+    for (int i = 0; i < V - 1; i++) { 
+  
+        for (int j = 0; j < E; j++) { 
+            if (dis[graph[j][0]] + graph[j][2] < 
+                               dis[graph[j][1]]) 
+                dis[graph[j][1]] =  
+                  dis[graph[j][0]] + graph[j][2]; 
+        } 
+    } 
+
+    for (int i = 0; i < E; i++) { 
+        int x = graph[i][0]; 
+        int y = graph[i][1]; 
+        int weight = graph[i][2]; 
+        if (dis[x] != INT_MAX && 
+                   dis[x] + weight < dis[y]) 
+            cout << "Graph contains negative"
+                    " weight cycle"
+                 << endl; 
+    } 
+  
+    cout << "Vertex Distance from Source" << endl; 
+    for (int i = 0; i < V; i++) 
+        cout << i << "\t\t" << dis[i] << endl; 
+} 

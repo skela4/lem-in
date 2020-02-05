@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 09:57:10 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 20:04:36 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 20:36:45 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int				main(void)
 	add_uni_edge(graph->matrix, 2, 4);
 	add_uni_edge(graph->matrix, 2, 5);
     add_uni_edge(graph->matrix, 3, 4);
-    add_uni_edge(graph->matrix, 4, 5);
     add_uni_edge(graph->matrix, 4, 7);
     add_uni_edge(graph->matrix, 5, 4);
     add_uni_edge(graph->matrix, 5, 6);
