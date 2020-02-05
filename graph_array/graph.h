@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 10:03:55 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 19:31:04 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 20:01:05 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int				*init_dist(t_graph *graph);
 int				*init_parent(t_graph *graph);
 int				init_array(t_graph *graph);
 
-int				dijkstra(t_graph *graph, int src);
+int				dijkstra(t_graph *graph, int src, int dest);
 
 void			negate_edge(t_graph *graph);
 

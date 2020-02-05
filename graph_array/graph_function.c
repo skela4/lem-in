@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 11:15:23 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 19:30:57 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 20:05:12 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void 						get_shorter_path(int *parent, int src, int dest, t_sht_path *path)
     get_path(parent, dest, path); 
 } 
 
-int						dijkstra(t_graph *graph, int src)
+int						dijkstra(t_graph *graph, int src, int dest)
 {
 	int						i;
 	int						u;
@@ -168,8 +168,17 @@ int						dijkstra(t_graph *graph, int src)
 	}
 	graph->s_path = (t_sht_path *)malloc(sizeof(t_sht_path));
 	graph->s_path->next = NULL;
-	get_shorter_path(graph->parent, 0, 4, graph->s_path);
+	get_shorter_path(graph->parent, 0, dest, graph->s_path);
 	return (1);
+}
+
+void			print_path(t_sht_path *tmp)
+{
+	while (tmp)
+	{
+		printf("%d \n", tmp->index);
+		tmp = tmp->next;
+	}
 }
 
 void			negate_edge(t_graph *graph)
@@ -179,10 +188,11 @@ void			negate_edge(t_graph *graph)
 	int			k;
 	t_sht_path *tmp;
 
+	// print_path(graph->s_path);
 	tmp = graph->s_path;
 	k = 0;
 	while (k < graph->vertices)
-	{
+	{	
 		i = 0;
 		while (i < graph->vertices)
 		{
