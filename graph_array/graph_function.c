@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 11:15:23 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 13:49:17 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 19:30:57 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,120 @@ void			bfs(t_graph *graph, int src)
 		i++;
 	}
 
+}
+
+int					min_dist(int *dist, int *sptSet, int size)
+{
+	int				i;
+    int				min;
+	int				min_index; 
+
+	i = 0;
+	min = INT_MAX;
+	while (i < size)
+	{
+		if (sptSet[i] == 0 && dist[i] <= min)
+		{
+        	min = dist[i];
+			min_index = i;
+		}
+		i++;
+	}
+    return (min_index);
+}
+  
+void 				get_path(int *parent, int j, t_sht_path *path)
+{
+	t_sht_path 		*tmp;
+	t_sht_path 		*node;
+
+	tmp = path;
+    if (parent[j] == -1) 
+        return;
+	node = (t_sht_path *)malloc(sizeof(t_sht_path));
+    get_path(parent, parent[j], path); 
+	if (tmp->index == -1)
+	{
+		tmp->index = j;
+		node->next = NULL;
+	}
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		node->index = j;
+		node->next = NULL;
+		tmp->next = node;
+	}
+} 
+
+void 						get_shorter_path(int *parent, int src, int dest, t_sht_path *path) 
+{
+	t_sht_path 				*tmp;
+
+	tmp = path;
+	tmp->index = src;
+    get_path(parent, dest, path); 
+} 
+
+int						dijkstra(t_graph *graph, int src)
+{
+	int						i;
+	int						u;
+	int						v;
+
+	if (!init_array(graph))
+		return (0);
+	graph->dist[0] = src;
+	i = -1;
+	while (++i < graph->vertices - 1)
+	{
+    	u = min_dist(graph->dist, graph->shortest_path_tree, graph->vertices); 
+        graph->shortest_path_tree[u] = 1;
+		v = -1;
+		while (++v < graph->vertices)
+		{
+			if (!graph->shortest_path_tree[v] && graph->matrix[u][v]
+			&& graph->dist[u] != INT_MAX && graph->dist[u] + graph->matrix[u][v] < graph->dist[v])
+			{
+				graph->parent[v] = u;
+				graph->dist[v] = graph->dist[u] + graph->matrix[u][v];
+			}
+		}
+	}
+	graph->s_path = (t_sht_path *)malloc(sizeof(t_sht_path));
+	graph->s_path->next = NULL;
+	get_shorter_path(graph->parent, 0, 4, graph->s_path);
+	return (1);
+}
+
+void			negate_edge(t_graph *graph)
+{
+	int			i;
+	int			j;
+	int			k;
+	t_sht_path *tmp;
+
+	tmp = graph->s_path;
+	k = 0;
+	while (k < graph->vertices)
+	{
+		i = 0;
+		while (i < graph->vertices)
+		{
+			j = 0;
+			while (j < graph->vertices)
+			{
+				if (tmp && tmp->next
+				&& i == tmp->index && j == tmp->next->index)
+				{
+					graph->matrix[i][j] = -1;
+					tmp = tmp->next;
+				}
+				j++;
+			}
+			i++;
+		}
+		k++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 09:57:10 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 13:49:57 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/05 19:31:20 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int				main(void)
 	int			i;
 	t_graph		*graph;
 
-	graph = init_graph(4);
+	graph = init_graph(9);
 
 	i = 0;
 	while (i < graph->vertices)
@@ -26,9 +26,14 @@ int				main(void)
 	while (i < graph->vertices)
 		graph->queue[i++] = 0;
 
-    add_uni_edge(graph->matrix, 0, 1);
-    add_uni_edge(graph->matrix, 1, 3);
-    add_uni_edge(graph->matrix, 0, 2);
+	add_uni_edge(graph->matrix, 0, 1);
+    add_uni_edge(graph->matrix, 0, 7);
+    add_uni_edge(graph->matrix, 1, 2);
+	add_uni_edge(graph->matrix, 7, 6);
+    add_uni_edge(graph->matrix, 2, 3);
+    add_uni_edge(graph->matrix, 2, 8);
+    add_uni_edge(graph->matrix, 6, 5);
+    add_uni_edge(graph->matrix, 5, 4);
 
     print_matrix(graph->matrix, graph->vertices);
 	
@@ -45,19 +50,12 @@ int				main(void)
 	printf("BFS\n");
 	bfs(graph, 0);
 
-    // addEdge(adjMatrix,0,1);
-    // addEdge(adjMatrix,0,2);
-    // addEdge(adjMatrix,0,3);
-    // addEdge(adjMatrix,1,3);
-    // addEdge(adjMatrix,1,4);
-    // addEdge(adjMatrix,2,3);
-    // addEdge(adjMatrix,3,4);
+	dijkstra(graph, 0);
+	negate_edge(graph);
+    print_matrix(graph->matrix, graph->vertices);
 
-	ft_delptr((char ***)&(graph->matrix), graph->vertices - 1);
-	ft_strdel((char **)&(graph->visited));
-	ft_strdel((char **)&(graph->queue));
-	ft_strdel((char **)&(graph));
-    return 0;
+	free_all(graph);
+    return (0);
 }
 
 // void	__attribute__((destructor)) leaks(void)
