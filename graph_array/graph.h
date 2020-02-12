@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 10:03:55 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 20:38:58 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/06 02:20:58 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int				*init_parent(t_graph *graph);
 int				init_array(t_graph *graph);
 
 int				dijkstra(t_graph *graph, int src, int dest);
+void			BellmanFord(t_graph *graph, int src, int dest);
 
 void			negate_edge(t_graph *graph);
 

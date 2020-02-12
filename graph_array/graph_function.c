@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 11:15:23 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 20:45:23 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/06 03:22:45 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,37 +139,6 @@ void 						get_shorter_path(int *parent, int src, int dest, t_sht_path *path)
 	tmp = path;
 	tmp->index = src;
     get_path(parent, dest, path); 
-} 
-
-int						dijkstra(t_graph *graph, int src, int dest)
-{
-	int						i;
-	int						u;
-	int						v;
-
-	if (!init_array(graph))
-		return (0);
-	graph->dist[0] = src;
-	i = -1;
-	while (++i < graph->vertices - 1)
-	{
-    	u = min_dist(graph->dist, graph->shortest_path_tree, graph->vertices); 
-        graph->shortest_path_tree[u] = 1;
-		v = -1;
-		while (++v < graph->vertices)
-		{
-			if (!graph->shortest_path_tree[v] && graph->matrix[u][v]
-			&& graph->dist[u] != INT_MAX && graph->dist[u] + graph->matrix[u][v] < graph->dist[v])
-			{
-				graph->parent[v] = u;
-				graph->dist[v] = graph->dist[u] + graph->matrix[u][v];
-			}
-		}
-	}
-	graph->s_path = (t_sht_path *)malloc(sizeof(t_sht_path));
-	graph->s_path->next = NULL;
-	get_shorter_path(graph->parent, 0, dest, graph->s_path);
-	return (1);
 }
 
 void			print_path(t_sht_path *tmp)
@@ -213,38 +182,91 @@ void			negate_edge(t_graph *graph)
 	}
 }
 
+int						dijkstra(t_graph *graph, int src, int dest)
+{
+	int						i;
+	int						u;
+	int						v;
+
+	if (!init_array(graph))
+		return (0);
+	graph->dist[0] = src;
+	i = -1;
+	while (++i < graph->vertices - 1)
+	{
+    	u = min_dist(graph->dist, graph->shortest_path_tree, graph->vertices); 
+        graph->shortest_path_tree[u] = 1;
+		v = -1;
+		while (++v < graph->vertices)
+		{
+			if (!graph->shortest_path_tree[v] && graph->matrix[u][v]
+			&& graph->dist[u] != INT_MAX && graph->dist[u] + graph->matrix[u][v] < graph->dist[v])
+			{
+				graph->parent[v] = u;
+				graph->dist[v] = graph->dist[u] + graph->matrix[u][v];
+			}
+		}
+	}
+	graph->s_path = (t_sht_path *)malloc(sizeof(t_sht_path));
+	graph->s_path->next = NULL;
+	get_shorter_path(graph->parent, 0, dest, graph->s_path);
+	return (1);
+}
+
 // int						dijkstra(t_graph *graph, int src, int dest)
 // void 					BellmanFord(int graph[][3], int V, int E, int src) 
-void BellmanFord(t_graph *graph, int src, int dest) 
+void			BellmanFord(t_graph *graph, int src, int dest) 
 { 
-    int dis[V]; 
-    for (int i = 0; i < V; i++) 
-        dis[i] = INT_MAX; 
-
-    dis[src] = 0; 
-
-    for (int i = 0; i < V - 1; i++) { 
+	int		i;
+	
+	i = 0;
+	while (i < graph->vertices)
+	{
+		graph->dist[i] = INT_MAX;
+		i++;
+	}
+    // graph->dist[src] = 0; 
+    // for (int i = 0; i < graph->vertices - 1; i++) { 
   
-        for (int j = 0; j < E; j++) { 
-            if (dis[graph[j][0]] + graph[j][2] < 
-                               dis[graph[j][1]]) 
-                dis[graph[j][1]] =  
-                  dis[graph[j][0]] + graph[j][2]; 
-        } 
-    } 
+    //     for (int j = 0; j < graph->vertices; j++) {
+    //         if (graph->dist[graph->matrix[j][0]] + graph->matrix[j][2] < graph->dist[graph->matrix[j][1]]) 
+    //            graph->dist[graph->matrix[j][1]] = graph->dist[graph->matrix[j][0]] + graph->matrix[j][2]; 
+    //     } 
+    // } 
 
-    for (int i = 0; i < E; i++) { 
-        int x = graph[i][0]; 
-        int y = graph[i][1]; 
-        int weight = graph[i][2]; 
-        if (dis[x] != INT_MAX && 
-                   dis[x] + weight < dis[y]) 
-            cout << "Graph contains negative"
-                    " weight cycle"
-                 << endl; 
-    } 
+	int k;
+	int j;
+	k = 0;
+	while (k < graph->vertices)
+	{
+		for (i = 0; i < graph->vertices - 1; i++)
+		{
+			for (j = 0; j < graph->vertices; j++)
+			{
+				if (graph->matrix[i][j])
+				{
+					
+					if (graph->dist[j] > (graph->dist[i] + graph->matrix[i][j]))
+					{
+						graph->dist[j] = graph->dist[i] + graph->matrix[i][j];
+					}
+				}
+			}
+		}
+		k++;
+  	}
+
+	  for (i = 0; i < graph->vertices - 1; i++) {
+    for (j = 0; j < graph->vertices; j++) {
+      if (graph->matrix[i][j]) {
+        if (graph->dist[j] > (graph->dist[i] + graph->matrix[i][j])) {
+          return ;
+        }
+      }
+    }
+  }
   
-    cout << "Vertex Distance from Source" << endl; 
-    for (int i = 0; i < V; i++) 
-        cout << i << "\t\t" << dis[i] << endl; 
+	printf("Vertex Distance from Source\n"); 
+    for (int i = 0; i < graph->vertices; i++)
+		printf("%d  %d\n", i, graph->dist[i]); 
 } 

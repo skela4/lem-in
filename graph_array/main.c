@@ -6,7 +6,7 @@
 /*   By: aahizi-e <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 09:57:10 by aahizi-e          #+#    #+#             */
-/*   Updated: 2020/02/05 20:36:45 by aahizi-e         ###   ########.fr       */
+/*   Updated: 2020/02/06 03:23:57 by aahizi-e         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int				main(void)
 	dijkstra(graph, 0, 7);
 	negate_edge(graph);
     print_matrix(graph->matrix, graph->vertices);
+	// dijkstra(graph, 0, 7);
+
+	// BellmanFord(graph, 0, 7);
 
 	free_all(graph);
     return (0);
